@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>vuex</title>
+	</head>
+	<body>
+		<div id="vue">
+			<acom></acom>
+		</div>
+		<script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+		<!-- <script src="https://cdn.staticfile.org/vue-router/2.7.0/vue-router.min.js"></script> -->
+		<script src="https://unpkg.com/vuex@3.1.1/dist/vuex.js"></script>
+		<script type="text/javascript">
+			Vue.use(Vuex)
+
+			var vuexStore = new Vuex.Store({
+				state: {
+					// 存放公共数据
+					name:{text:'zhaobo'},
+					age:12
+				},
+				mutations: {
+					//更改数据的唯一方法
+					//显示更改 state的数据
+					myfun:(stateData,n)=>{
+						stateData.age = n
+					},
+					newfn(state,n){
+						state.name = n
+					}
+				},
+				getters: {
+					// 过滤 提取 state数据
+					getDataAge(stateObj){
+						return stateObj.age+10+'岁'
+					}
+				},
+				actions: {
+					// 异步处理
+				}
+			})
+
+
+			Vue.component('acom', {
+				template: `,
+				<div>
+					a组件<br>
+					数据：{{$store.state.name.text}} - {{$store.state.age}}_getters计算后的值：{{$store.getters.getDataAge}}<br>
+					{{$store.state.name}}
+				</div>`
+			})
+
+			var vue = new Vue({
+				el: '#vue',
+				// router:'myrouter',
+				store: vuexStore,
+				mounted() {
+					console.log(this);
+					this.$store.commit('myfun',100)
+					this.$store.commit('newfn','lianchao')
+				}
+			})
+		</script>
+	</body>
+</html>

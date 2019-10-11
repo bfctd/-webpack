@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>jquery</title>
+	<style type="text/css">
+		.par {
+			height: 800px;
+			background: #eee;
+		}
+		.min{
+			height: 200px;
+			border: 1px solid;
+		}
+	</style>
+</head>
+<body>
+	<div class="par" id="par">
+		<div class="min"></div>
+		<ul id="ul">
+			<li>1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+		</ul>
+	</div>
+<!-- <script type="text/javascript" src="./me.js"></script> -->
+<script type="text/javascript" src="./jquery.js"></script>
+<script type="text/javascript">
+	var ul = document.getElementById('ul')
+	ul.addEventListener('click',function(event){
+		console.log(event.target.parentNode)
+	},true)
+	var par = document.getElementById('par')
+	par.onclick=function(){
+		console.log(1)
+
+		}	// console.log($.Callbacks())
+	/*
+
+	jQuery.extend({F:function(){
+		console.log('jq 的 扩展')
+	}})
+	jQuery.F()
+	
+	*/
+	
+	/*
+
+	$.fn.extend({val:'实例对象的扩展'})
+	console.log($().val)
+
+	*/
+
+
+	/*
+
+	var merge = $.merge([1,2],[2,3])
+	console.log(merge)
+
+	*/
+	
+	
+
+	/*var par = document.querySelectorAll('.par')[0]
+	// console.log(par)
+	par.addEventListener('click',()=>{
+		hide(par)
+	},true)
+	function hide(dom) {
+		// console.log(dom.style.display)
+		dom.style.display='none'
+	}*/
+
+	/*$(()=>{
+		console.log($('.par').css('color'))
+	})*/
+	/*console.dir(document.onDOMContentLoaded)
+
+	window.addEventListener('DOMContentLoaded', (event) => {
+    	console.log('DOM fully loaded and parsed');
+	});*/
+	/*var A = function (){
+
+	}
+	this.A = A
+	this.$ = A
+	console.log($)
+	console.log(A)*/
+
+</script>
+</body>
+</html>

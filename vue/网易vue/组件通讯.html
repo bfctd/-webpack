@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>组件</title>
+		<style>
+			div.a{
+				padding: 30px 0;
+				border: 1px solid #0000FF;
+			}
+			div.b{
+				padding: 30px 0;
+				border: 1px solid red;
+			}
+			div.c{
+				padding: 30px 0;
+				border: 1px solid #F0F8FF;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="vue">
+			<div class="a">
+				{{data}}
+				<input v-model="input" type="text">
+				<ex :input="input" @change="changeInput"></ex>
+				
+				<hr>
+				
+				<ex></ex>
+				<ex2></ex2>
+			</div>
+		</div>
+		<div id="bus">
+			{{}}
+		</div>
+		<script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+		<script type="text/javascript">
+			var ex = Vue.extend({
+				template:'<div>extend扩展的组件--{{input}}<input v-model="text"/><hr>他表白<input v-model="love"/></div>',
+				props:['input'],
+				data(){
+					return{
+						text:'自组件值',
+						love:'我爱你'
+					}
+				},
+				watch:{
+					text(n){
+						console.log(n)
+						this.$emit('change',n)
+					},
+					love(n){
+						__bus.$emit('golive',n)
+					}
+				}
+			})
+			
+			var ex2 = Vue.extend({
+				template:'<div>她收到--{{msg}}<br><input v-model="text"/></div>',
+				props:['input'],
+				data(){
+					return{
+						text:'',
+						msg:'空'
+					}
+				},
+				watch:{
+					text(n){
+						console.log(n)
+						this.$emit('change',n)
+					}
+				},
+				created(){
+					__bus.$on('golive',(m)=>{
+						this.msg = m
+					})
+				}
+			})
+			
+			var exC = Vue.component('ex',ex)
+			Vue.component('ex2',ex2)
+			
+			var __bus = new Vue();
+
+			var vue = new Vue({
+				el:'#vue',
+				data:{
+					data:'vue 根组件',
+					input:''
+				},
+				watch:{
+					input(n,o){
+						console.log(n)
+					}
+				},
+				mounted(){
+					
+				},
+				methods:{
+					changeInput(val){
+						this.input = val
+					}
+				}
+			}).$mount('#bus')
+		</script>
+	</body>
+</html>

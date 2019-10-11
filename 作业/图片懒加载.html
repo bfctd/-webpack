@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图片懒加载</title>
+    <style>
+        .one {
+            min-height: 400px;
+        }
+
+        .two {
+            min-height: 630px;
+            background: aquamarine;
+        }
+    </style>
+</head>
+<script src="./../源码/jquery%20源码/jquery.js"></script>
+<body>
+<div class="one">
+    <img src="" alt="">
+</div>
+<div class="two">
+    <img src="" alt="">
+</div>
+<div class="one">
+    <img src="" alt="">
+</div>
+<div class="two">
+    <img src="" alt="">
+</div>
+<div class="one">
+    <img src="" alt="">
+</div>
+<div class="two">
+    <img src="" alt="">
+</div>
+<div class="one">
+    <img src="" alt="">
+</div>
+<script>
+    window.LoadingImgDelay = function (option) {
+        this.imgList = option.imgClassName || $('img')
+        this.imgSrc = option.imgSrcList || []
+        this.main()
+    }
+    LoadingImgDelay.prototype = {
+        main() {
+            let [lookH, docH, rollH] = [$(window).height()]
+            this.imgList.attr({src: this.imgSrc[0]})
+            this.imgList = Array.prototype.slice.call(this.imgList)
+
+            LoadingImgDelay.loadImg(this.imgList, this.imgSrc)
+            $(window).on('scroll', () => {
+                LoadingImgDelay.loadImg(this.imgList, this.imgSrc)
+
+                if (LoadingImgDelay.noListon(this.imgList, this.imgSrc)) {
+                    $(window).off('scroll')
+                }
+            })
+        }
+    }
+    LoadingImgDelay.loadImg = function (list, src) {
+        console.log(this)//this指向这个构造函数
+        list.forEach((item, index) => {
+            console.log(111111111111111)
+            console.log(!$(item).attr('data-src'))
+            if (!$(item).attr('data-src')) {
+                console.log(src)
+                $(item).attr('data-src', src[index])
+            }
+
+            rollH = $(window).scrollTop()
+            docH = $(item).offset().top
+            console.log(docH - rollH < lookH)
+            if (docH - rollH < lookH) {
+                console.log(item.getAttribute('data-src'))
+                item.src = item.getAttribute('data-src')
+            }
+        })
+    }
+    LoadingImgDelay.noListon = function (list, src) {
+        let noListon = list[src.length - 1].src === src[src.length - 1]
+        return noListon
+    }
+
+
+    var imgSrc = [
+        'http://img5.imgtn.bdimg.com/it/u=3985625818,1688087717&fm=11&gp=0.jpg',
+        'http://img5.imgtn.bdimg.com/it/u=1517597033,64748178&fm=26&gp=0.jpg',
+        'http://img5.imgtn.bdimg.com/it/u=2771751783,3118716816&fm=26&gp=0.jpg',
+        'http://img3.imgtn.bdimg.com/it/u=474116397,1427705304&fm=11&gp=0.jpg',
+        'http://img3.imgtn.bdimg.com/it/u=86938302,3313705311&fm=11&gp=0.jpg',
+        'http://img1.imgtn.bdimg.com/it/u=2921568047,453679748&fm=26&gp=0.jpg',
+        'http://img3.imgtn.bdimg.com/it/u=3112993479,79641540&fm=26&gp=0.jpg',
+    ]
+    new LoadingImgDelay({
+        imgSrcList: imgSrc
+    })
+</script>
+</body>
+</html>

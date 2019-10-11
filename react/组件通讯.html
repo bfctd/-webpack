@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>组件通讯</title>
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+<body>
+    <div id="App"></div>
+    <script type="text/babel">
+        class APP extends React.Component{
+            constructor(){
+                    super()
+                    this.state={
+                        data:'11'
+                    }
+                }
+            render(){
+                return(
+                    <div>
+                        App值：{this.state.data}
+                        <InputCom onPropInputCom={(data)=>{this.setState({data})}} />
+                    </div>
+                )
+            }
+        }
+
+        class InputCom extends React.Component{
+            constructor(){
+                super()
+                this.state={
+                    inputVal:"123"
+                }
+            }
+            render(){
+                return(
+                    <div>
+                        <input 
+                        value={this.state.inputVal}
+                        onChange={(e)=>{
+                            console.log()
+                            this.setState({
+                                inputVal:e.target.value
+                            })
+
+                            let {onPropInputCom} = this.props
+                            onPropInputCom(e.target.value)                    
+                        }}
+                        />
+                        {this.state.inputVal}
+                    </div>
+                    
+                )
+            }
+
+            // 这里的方法只能在InputCom实例中使用
+            Fn(){
+                alert(1)
+            }
+
+            componentDidMount(){
+                console.log(this)
+                let {onPropInputCom} = this.props
+                setTimeout(() => {
+                    onPropInputCom(this.state.inputVal)                    
+                }, 500);
+            }
+        }
+
+        ReactDOM.render(<APP />,document.getElementById("App"))
+    </script>
+</body>
+</html>

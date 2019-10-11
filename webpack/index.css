@@ -1,0 +1,9 @@
+.content {
+    color: red;
+    font-size: 12px;
+}
+
+html{
+    background: #0000FF;
+    /*background: url("./");*/
+}

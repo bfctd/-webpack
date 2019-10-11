@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>underscore</title>
+		<script type="text/javascript" src="./underscore.js"></script>
+	</head>
+	<body>
+
+	</body>
+	<script>
+		_.mixin({
+			noConflict: function() {
+				return _
+			}
+		})
+		
+		console.log(_().noConflict())
+		
+
+
+		var _ = {
+			owner: 'max'
+		};
+
+
+		// 引入underscore后
+
+
+		console.log(_); // => undefined
+		console.log()
+	</script>
+</html>

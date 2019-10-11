@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表单验证插件</title>
+</head>
+<script src="./../源码/jquery%20源码/jquery.js"></script>
+<script src="./formRuleTest.js"></script>
+<body>
+<div class="from">
+    <input type="text" class="phone p" placeholder="手机号">
+    <input type="text" class="code" placeholder="验证码">
+    <input type="text" class="credentials" placeholder="身份证">
+    <input type="text" class="email" placeholder="电子邮箱">
+    <input type="text" class="renull" placeholder="非空字段">
+    <input type="text" class="int" placeholder="整形">
+    <input type="text" class="one" placeholder="1">
+    <button>提交</button>
+</div>
+<script>
+    var list = [
+        {el: '.phone.p', event: 'blur', role: 'phone', text: '您输入的不符合', show: "bottom"},
+        {el: '.code', event: 'blur', role: 'code', text: '请正确输入验证码'},
+        {el: '.credentials', event: 'blur', role: 'icord', text: '身份证不对'},
+        {el: '.email', event: 'blur', role: 'email', text: '电子'},
+        {el: '.renull', event: 'blur', role: 'mast', text: '不能为空', show: "bottom"},
+        {el: '.int', event: 'blur', role: 'int'},
+        {el: '.one', event: 'blur', regexp: '/1/'},
+    ]
+    $(".from").formRuleTest({
+        set: list
+    })
+    $('button').on('click', () => {
+        var canAcc = ($(".from").formRuleTest({set: list, allTest: true}))
+        if (canAcc) {
+            //ajax
+        }
+    })
+</script>
+</body>
+</html>

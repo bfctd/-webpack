@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>插槽</title>
+		<style>
+			div.a{
+				padding: 30px 0;
+				font-size: 30px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="vue">
+			<ex1>
+				<template v-slot:bottom="slotProps">
+					<ex2></ex2>
+					{{slotProps.text}}
+				</template>
+			</ex1>
+		</div>
+		<script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+		<script type="text/javascript">
+			var ex1=Vue.extend({
+				template:`
+					<div class="a"> 组件1<input v-model="text" /> 保留一个插槽,插入: 
+						<slot name="bottom" :text="text"></slot>
+					</div>
+				`,
+				data(){
+					return{
+						text:'具名插槽'
+					}
+				}
+			})
+			var ex2 =Vue.extend({
+				template:`
+					<div class="a"> 组件2</div>
+				`
+			})
+			
+			var vue = new Vue({
+				components:{
+					'ex1':ex1,
+					'ex2':ex2,
+				},
+				data: {
+					
+				},
+				methods: {
+					
+				}
+			}).$mount('#vue')
+		</script>
+	</body>
+</html>

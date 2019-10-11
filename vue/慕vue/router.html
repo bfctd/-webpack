@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue Router</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+</head>
+<body>
+<div id="vm">
+    <router-view></router-view>
+</div>
+<script>
+    var CompApp = {
+        template: '<div> <div  style="height:100000px">{{text}}</div></div>',
+        data() {
+            return {
+                text: 'app'
+            }
+        }
+    }
+
+    var CompH5 = {
+        extends: CompApp,
+        data() {
+            return {
+                text: 'H5'
+            }
+        }
+    }
+
+    // var CompHomeClass = Vue.extend(CompApp)
+    // var CompHome = new CompHomeClass({
+    //     data:{
+    //         text:'CompHome'
+    //     }
+    // })
+
+    var vueRouter = new VueRouter({
+        mode: 'hash', // hash,abstract
+        // base:'/baseurl/', // 基路径
+        // linkActiveClass:'a', // 可点击的router-link
+        // linkExactActiveClass:"b", tag="li" 渲染成li，真正的路由激活状态
+        routes: [
+            {
+                path: '/',
+                redirect: '/app'
+            },
+            {
+                path: '/app',
+                component: CompApp //可以是组件配置对象，也可以是Vue.extend()实例组件构造器
+            },
+            {
+                path: '/h5',
+                component: CompH5
+            },
+            {
+                path: '/404',
+                component: {template: '<div>404</div>'}
+            },
+            {
+                path: '*',
+                redirect: '/404'
+            }
+        ],
+        scrollBehavior(to, from, savedPosition) {
+            if (savedPosition) {
+                return savedPosition
+            } else {
+                return {x: 1, y: 0}
+            }
+        }
+    })
+
+    var vm = new Vue({
+        router: vueRouter
+    }).$mount("#vm")
+</script>
+</body>
+</html>

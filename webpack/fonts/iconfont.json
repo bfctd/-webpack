@@ -1,0 +1,23 @@
+{
+  "id": "1133365",
+  "name": "保荐汇-xtech",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "8351965",
+      "name": "我的1",
+      "font_class": "wode",
+      "unicode": "e6c3",
+      "unicode_decimal": 59075
+    },
+    {
+      "icon_id": "8351974",
+      "name": "主页1",
+      "font_class": "zhuye",
+      "unicode": "e6c6",
+      "unicode_decimal": 59078
+    }
+  ]
+}

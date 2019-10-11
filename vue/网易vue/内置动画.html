@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>动画</title>
+		<style>
+			div.a{
+				padding: 30px 0;
+				font-size: 30px;
+			}
+			
+			.name-enter{
+				color: red;
+			}
+			.name-enter-active{
+				transition: color 2s; 
+			}
+			.name-enter-to{
+				color: #0000FF;
+			}
+			
+			.v-leave{
+				
+			}
+			.v-leave-active{
+				animation: name 1s;
+			}
+			.v-leave-to{
+				
+			}
+			
+			@keyframes name{
+				from{transform: translate(100px);}
+				to{transform: translate(1000px);}
+			}
+		</style>
+	</head>
+	<body>
+		<div id="vue">
+			<button @click="show = !show">点击</button>{{show}}
+			<input type="text" v-model="text">
+			<transition name="name">
+				<div v-show="show" class="a">
+					v-show
+					{{text}}
+				</div>
+			</transition>
+			<transition>
+				<div class="a" v-show="!show">
+					v-if
+				</div>
+			</transition>
+
+			<hr>
+
+			<button @click="js=!js">点击</button>
+			<transition 
+				v-on:before-enter="beforeEnter" :css="false"
+				v-on:enter="enter"
+				v-on:after="afterEnter"
+				>
+				<div v-show="js" class="a">钩子函数动画</div>
+			</transition>
+		</div>
+		<script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+		<script type="text/javascript">
+			var vue = new Vue({
+				data: {
+					show: false,
+					text: '',
+					js: false
+				},
+				methods: {
+					beforeEnter(el, doneFn) {
+						el.style.marginLeft="400px"
+						console.log(el)
+						console.log(doneFn) //undefind
+					},
+					enter(el,doneFn){
+						console.log(el)
+						console.log(doneFn)
+						el.style.transition="all,2s"
+						doneFn()
+					},
+					afterEnter(el){
+						console.log(el)
+						el.style.marginLeft="800px"
+					}
+				}
+			}).$mount('#vue')
+		</script>
+	</body>
+</html>

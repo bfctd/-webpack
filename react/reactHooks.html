@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>react hooks</title>
+    <script crossorigin src="https://cdn.bootcss.com/react/16.8.6/umd/react.development.js"></script>
+    <script crossorigin src="https://cdn.bootcss.com/react-dom/16.8.6/umd/react-dom.development.js"></script>
+    <script src="https://cdn.bootcss.com/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const Root = (props)=>{
+            // var array = React.useState(0)
+            // var x = array[0]
+            // var y = array[0]
+
+            let[key,keyFn] = React.useState(0)
+            return(
+                // `xxxx-${x}-${props}`
+                `xxxx-${key}-${props}`
+            )
+        }
+
+
+        ReactDOM.render(<Root root={this} />,document.querySelector('#root'))
+    </script>
+</body>
+</html>

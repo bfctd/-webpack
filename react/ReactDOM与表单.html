@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ReactDOM与表单</title>
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div id="App"></div>
+    <script type="text/babel">
+        class App extends React.Component{
+            constructor(props) {
+                super(props);
+                this.state={
+                    showLoading:true
+                }
+            }
+            
+            render(){
+                const {showLoading} = this.state
+                return(
+                    <div>
+                        {/*
+                            <div style={showLoading?{}:{display:'none'}}>
+                            <Loading />
+                        </div>
+                        <div style={showLoading?{display:'none'}:{}}>
+                            <Data showLoadingOn={
+                                showLoading=>{
+                                    this.setState({showLoading:false})
+                                }
+                            } />
+                        </div>
+                        */}
+                        <Data showLoadingOn={
+                            showLoading=>{
+                                this.setState({showLoading:false})
+                            }
+                        } />
+                        <Data showLoadingOn={
+                            showLoading=>{
+                                this.setState({showLoading:false})
+                            }
+                        } />
+                        {showLoading && <Loading />}
+                        <hr />
+                        <Select />
+                        <InputControl />
+                    </div>
+                )
+            }
+        }
+
+        React.Component.prototype.$Load = (hand)=>{
+            let node = null
+                if(hand==='show'){
+                    if(!document.getElementById("LoadRender")){
+                        node = document.createElement("div")
+                        node.id = "LoadRender"
+                        document.getElementsByTagName("body")[0].appendChild(node)
+                        ReactDOM.render(<Loading />,node)
+                    }
+                }else{
+                    if(document.getElementById("LoadRender")){
+                        console.log('移除')
+                        // ReactDOM.unmountComponentAtNode("Loa")
+                        // document.body.removeChild(node)
+                    }
+                }
+        }
+
+        class Data extends React.Component{
+            constructor(props) {
+                super(props);
+                this.state={
+                    data:['初始值'],
+                    showLoading:false
+                }
+            }
+            render(){
+                return(
+                    this.state.data.map(item=><p key={item}>{item}</p>)
+                )
+            }
+            componentDidMount(){
+                this.$Load('show')
+                setTimeout(() => {
+                    this.setState({
+                        data:['橘子','桃子','杏子'],
+                    })
+                    this.props.showLoadingOn()
+                    this.$Load('hide')
+                }, 5000);
+            }
+        }
+
+        class Loading extends React.Component{
+            render(){
+                return(
+                    '正在加载...'
+                )
+            }
+        }
+
+        class Select extends React.Component{
+            constructor(){
+                super()
+            
+                this.state={
+                    radioVal:'1'
+                }
+
+                this.select=(e)=>{
+                    this.setState({
+                        radioVal:e.target.value
+                    })
+                }
+            }
+
+            
+            render(){
+                const {radioVal} = this.state
+                return(
+                    <div>
+                        <input type="radio" value="1" name="名称" checked={radioVal==='1'} onChange={this.select}/>
+                        <input type="radio" value="2" name="名称" checked={radioVal==='2'} onChange={this.select}/>
+                        {radioVal === '1'? <div>a</div> : <div>b</div>} 
+                    </div>
+                )
+            }
+        }
+
+        class InputControl extends React.Component{
+            constructor(props) {
+                super(props);
+                this.state={
+                    myValue:'',
+                    myInput:'',
+                    myInput2:'',
+                    inputValue:'mo ren',
+                },
+                // this.onChangeHandlerFn=InputControl.onChangeHandlerFn.bind(this)
+                this.onChangeHandlerFn=this.onChangeHandlerFn.bind(this)
+            }
+            // static onChangeHandlerFn(e){
+            onChangeHandlerFn(e,that){
+                // console.log(this,'this')
+                // console.log(that,'that')
+                console.log(e,'e')
+                this.setState({
+                    myValue:e.target.value
+                })
+            }
+            render(){
+                return(
+                    <div>
+                        <input type="text" placeholder="手机号" value={this.state.myValue} onChange={this.onChangeHandlerFn}/>
+                        <input type="text" placeholder="账号" ref={this.state.myInput = React.createRef()} />
+                        <input type="text" placeholder="密码" ref={
+                            (i)=> {
+                                this.state.myInput2 = i
+                            }
+                        } />
+                        <input type="text" value={this.state.inputValue} placeholder="验证码" onChange={
+                            (e)=>{
+                                this.setState({
+                                    inputValue:e.target.value
+                                })
+                            }
+                        } />
+                        <button onClick={()=>{
+                            console.log(this.state.myValue)
+                            console.log(this.state.myInput.current.value)
+                            console.log(this.state.myInput2.value)
+                            console.log(this.state.inputValue)
+                        }}>登陆按钮</button>
+                    </div>
+                )
+            }
+        }
+
+        ReactDOM.render(<App />, document.getElementById("App"))
+        // ReactDOM.unmountComponentAtNode(document.getElementById("App")) // 卸载组件
+    </script>
+</body>
+
+</html>

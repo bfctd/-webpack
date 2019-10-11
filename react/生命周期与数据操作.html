@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>生命周期与数据操作</title>
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+<body>
+    <div id="App"></div>
+    <script type="text/babel">
+        class App extends React.Component{
+            render(){
+                return(
+                    <div>
+                        <One data='aa' />
+                        <Two data='bb' />
+                        <Three />
+                    </div>
+                )
+            }
+        }
+
+        const One = (props)=>{
+            return (
+                <h1>111-{props.data}</h1>
+            )
+        }
+
+        class Three extends React.Component{
+            render(){
+                return(
+                    <h1>
+                        <span>333</span> |
+                        <ThreeThree />
+                    </h1>
+                    
+                )
+            }
+        }
+
+        class ThreeThree extends React.Component{
+            render(){
+                return(
+                    <span> 33的儿子</span>
+                )
+            }
+        }
+
+        class Two extends React.Component{
+            /**
+             * 类[构造函数]的实例
+            */
+            constructor(props){
+                super(props)
+                this.x =1
+                this.state={
+                    name:'二'
+                }
+            }
+
+            /**
+             * 将要挂载（渲染dom）
+            */
+            componentWillMount(){
+                // console.log(this.x)
+            }
+            /**
+             * 渲染
+            */
+            render(){
+                return(
+                    <h1>222-{this.props.data}-{this.state.name}</h1>
+                )
+            }
+            /**
+             * 挂载完
+            */
+            componentDidMount(){
+                // console.log(this.x)
+                var setTimer = setInterval(() => {
+                    this.setState({
+                        name:this.state.name
+                    })
+                }, 1000);
+            }
+            /**
+             * 接收到一个新的 prop (更新后)时被调用。这个方法在初始化render时不会被调用。
+            */
+            componentWillReceiveProps(){
+
+            }
+            /**
+             * 在组件接收到新的props或者state时被调用
+            */
+            // shouldComponentUpdate(){
+                
+            // }
+            /**
+             * 确定要更新时调用
+            */
+            componentWillUpdate(){
+
+            }
+           /**
+             * 完成更新
+            */
+            componentDidUpdate(){
+
+            }
+           /**
+             * 组件从 DOM 中移除之前
+            */
+            componentWillUnmount(){
+
+            }
+        }
+
+        // class ThreeInput extends React.component{
+            
+        // }
+        
+        ReactDOM.render(<App />,document.getElementById("App"))
+    </script>
+</body>
+</html>

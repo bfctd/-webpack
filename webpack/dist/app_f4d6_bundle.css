@@ -1,0 +1,1 @@
+:root{--fsize: 38px}html{background:#42b983 !important}.content{color:green;height:calc(100% + 500px);border:1px solid #eee;font-size:38px;font-size:var(--fsize)}.content .c{color:red;text-shadow:#0000FF 1px 2px 3px 4px;display:-webkit-box;display:-ms-flexbox;display:flex}

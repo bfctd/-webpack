@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+		<style type="text/css">
+			.a,.b,.c{
+				padding: 20px 0;
+			}
+			.a{
+				background-color: aliceblue;
+			}
+			.b{
+				background-color: red
+			}
+			.c{
+				background-color: blue				
+			}
+		</style>
+	</head>
+	<body>
+		<div id="vm">
+			<div class="a" @click="alert('外部')">
+				外部
+				<div class="b" id="b"  v-on:click.self="alert('中间')">
+					中间
+					<div class="c" id="c" v-on:click="alert('里层')">里层</div>
+				</div>
+			</div>
+			<hr>
+			事件委托
+			<ul @click="fn($event)">
+				<li v-for="v in arr">
+					{{v.name}} -- {{v.id}}
+				</li>
+			</ul>
+		</div>
+	</body>
+	<script>
+		var vm  = new Vue({
+			data:{
+				arr:[
+						{id:'1',name:'hahha'},
+						{id:'2',name:'hegeueg'},
+						{id:'3',name:'gege'},
+						{id:'4',name:'meimei'},
+						{id:'5',name:'jjjj'},
+				],
+				colorList:['red','green','blue','block','yellow']
+			},
+			created(){
+			},
+			methods:{
+				fn(event){
+					if(event.target.tagName==='LI'){
+						console.log('我想拿到index')
+					}
+				}
+			}
+		})
+		vm.$mount('#vm')
+	</script>
+</html>

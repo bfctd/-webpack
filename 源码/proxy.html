@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>proxy</title>
+</head>
+<body>
+<script type="text/javascript">
+	var obj = {name:"11111"}
+	var _proxyobj = new Proxy(obj,{
+		get function(){
+			console.log(1)
+		},
+		has(){
+			// alert()
+		}
+	})
+
+</script>
+</body>
+</html>

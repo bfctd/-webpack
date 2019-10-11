@@ -1,0 +1,54 @@
+{
+  "name": "webpack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "serve": "webpack-dev-server --open --mode development --env development --config webpack_vue_config.js",
+    "test": "webpack --env test --config webpack_vue_config.js",
+    "build": "webpack --env production --config webpack_vue_config.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/runtime": "^7.6.0",
+    "webpack-dev-server": "^3.8.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.0",
+    "@babel/plugin-transform-runtime": "^7.6.0",
+    "@babel/preset-env": "^7.6.0",
+    "autoprefixer": "^9.6.1",
+    "babel-loader": "^8.0.6",
+    "babel-polyfill": "^6.26.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^3.2.0",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "file-loader": "^4.2.0",
+    "html-webpack-plugin": "^3.2.0",
+    "node-sass": "^4.12.0",
+    "postcss": "^7.0.18",
+    "postcss-loader": "^3.0.0",
+    "postcss-preset-env": "^6.7.0",
+    "sass-loader": "^8.0.0",
+    "style-loader": "^1.0.0",
+    "ts-loader": "^6.1.0",
+    "typescript": "^3.6.3",
+    "url-loader": "^2.1.0",
+    "webpack": "^4.40.2",
+    "webpack-cli": "^3.3.9",
+    "webpack-merge": "^4.2.2",
+    "webpack-dev-server": "^3.8.1"
+  },
+  "browserslist": [
+    "> 0.05% in CN"
+  ],
+  "//": [
+    "通过 npx brwoerslist 查看pick on 的浏览器",
+    "> 1% 全球全球超过1%人使用的浏览器",
+    "> 1% in CN 指定国家使用率覆盖",
+    "last 2 versions 每个浏览器最近的两个版本。",
+    "since 2013 2013年之后发布的所有版本"
+  ]
+}

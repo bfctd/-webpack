@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="module" src="./index.js"></script>
+<!--    <script type="module" src="https://cdn.bootcss.com/vue-router/3.0.6/vue-router.esm.browser.js"></script>-->
+<!--    <script type="module" src="https://cdn.bootcss.com/vue-router/3.0.6/vue-router.esm.browser.js"></script>-->
+</head>
+<body>
+<div ref="vm" id="vm">
+    {{text}}
+    <jubu :text="text"></jubu>
+    <input type="text" v-model="text">
+    <hr>
+    <tem @func="func"></tem> <!--通过props还可以传递一个方法来向父组件传递数据 -->
+    <!-- 也可以通过@自定义事件，通过emit来传递数据-->
+    aaaa{{a}}
+    <hr>
+    <div id="jicheng">
+
+    </div>
+    <hr>
+    <div id="jicheng1">
+        <div>
+            使用组件配置项的extends 继承的组件
+            <aaaa></aaaa>
+            可怕现在组件名称必须-这样写
+            <comp-opti></comp-opti>
+        </div>
+    </div>
+    <hr>
+    <h3>组件自定义的v-model</h3>
+    <input type="text" v-model="input">
+    <double v-model="input"></double>
+    <hr>
+    <h3>组件高级-插槽</h3>
+    <gaoji>
+        <template v-slot:top>
+            <div>this is top slot,slot是内置的一个组件</div>
+        </template>
+        <div slot="btm">this is btm slot,slot是内置的一个组件</div>
+        <template v-slot:value="scope">
+            <div>{{scope.value}}{{scope}}</div>
+        </template>
+    </gaoji>
+</div>
+<script type="module">
+    import Vue from './node_modules/vue/dist/vue.esm.browser.js'
+    import {tem, double, gaoji} from './index.js'
+
+    var componentOptions = {
+        template: '<div>woshi  quanju zujian {{text}}</div>', render(createElement) {
+            return createElement('div')
+        }, data() {
+            return {text: 1}
+        }
+    }
+    var comp1 = Vue.extend(componentOptions)
+    new comp1({
+        el: '#jicheng', data: {
+            text: '-----comp1 jicheng'
+        }
+    })
+
+    var compOpti2 = {
+        extends: componentOptions
+    }
+
+
+    Vue.component('MQuanju', componentOptions)
+
+    // var vueRouter = new VueRouter({
+    //     routes: [
+    //         {path: '/app', component: componentOptions}
+    //     ]
+    // })
+
+    // console.log(vueRouter)
+
+    var vm = new Vue({ // 实例对象 $options,$props,$data,$el,
+        // $root就是根节点,$options.rander(),
+        // $children暂定,
+        // $slots|$scopedSlots编程式访问插槽
+        // $refs不仅能返回DOM节点，也能返回vue组件的实例
+        // $isServer 服务端渲染，是否运行与服务器
+
+        // $watch() $watch方法需要自己去销毁掉 var unwatch = $watch() unwatch()
+        // 组件中的watch对象的监听方法不要是箭头函数，因为箭头函数的this不会是组件的实例对象
+        // $on(),$emit() emit调用事件，能传递给on监听的事件函数参数$once()
+        // $forceUpdate(),强制组件重新渲染
+        // $set(targetObj，attr，val)给新对象进行赋值，会触发更新，$delete()
+        // $nextTick() 暂定
+        // $destory() 销毁组件
+        // router: vueRouter,
+        name: "vm",
+        // 组件定义provide暴露出去，子孙元素通过inject数组可以拿到
+        provide() {
+            const d = {}
+            // provide默认是不响应的，响应需要用到defineProtyty，
+            //这个函数接收三个参数 1新obj名 2对象里的属性key 3传入对象
+            // vue内部响应原理其实就是这个函数
+            // 在使用的时候不要写在inject里，否则只会执行一次
+            Object.defineProperty(d, 'val', {
+                //get 方法就是每次调用对象里的属性key就调用一次get方法，
+                get: () => {
+                    return this.input
+                },
+                // 定义值为可读性属性
+                enumerable: true
+            })
+            return {
+                yeye: this.text,
+                foo: 'bar',
+                d
+            }
+        },
+        // parent:'父组件', // 改变new Vue的parent，自组件可以通过$parent.$option.name找到
+        //自组件除了props传递给自组件，子组件也能通过this.$parent.data来获取
+        el: '#vm', //new Vue().$mount('#app')
+        components: { // 局部注册组件components  | 全局注册Vue.component('',{})
+            // 组件定义后可以在template模板里面使用他
+            jubu: {
+                template: `
+                    <div>
+                        {{t}}
+                        <span>根组件传入：{{text}}</span>
+                    </div>`
+                ,
+                props: {
+                    text: {
+                        type: String,
+                        default: 'default默认内容'
+                    }
+                },
+                data() {
+                    return {
+                        t: 'jubu组件中的内容'
+                    }
+                }
+            },
+            tem,
+            aaaa: {
+                extends: componentOptions, data() {
+                    return {text: 'AAAA'}
+                }, mounted() {
+                    this.$parent.text = 'txt'
+                    this.$parent._data.a = '11111'
+                }
+            },
+            compOpti: compOpti2,
+            double,
+            gaoji,
+        },
+        //template:"<div>hhh</div>", // 会替换掉el绑定的内容
+        //rander:()=>{}, //有rander方法就不会el或template编译了
+        data: { // 可以是Function，可以是对象，组件必须是function，因为return{},得到的是新的{}
+            text: "text",
+            func(val) {
+                console.log(val)
+            },
+            a: '',
+            input: '1'
+        },
+        watch: {},
+        computed: { // 绑定模版时需要处理数据时可以用computed，因为他不会dom渲染一次他就执行一次
+        },
+        // 开始监控data数据，data此时还没有
+        beforeCreate() {
+        },
+        // data有了，开始初始化vue内部事件
+        created() {
+        },
+        // 如果没有挂载el，就会等着调用$mount，如果都没有就不会执行beforeMount、mounted
+        // 再看有没有传入template，如果有就渲染成render函数然后替换el，如果没有就用el来当成template
+
+        // dom生成，但没有插入数据，服务端渲染不可用
+        beforeMount() {
+        },
+        // render(){}, //template差不多
+        // 实际dom生成，数据插入dom，服务端渲染不可用，因为服务端没有dom环境
+        mounted() {
+        },
+        beforeUpdate() {
+        },
+        updated() {
+        },
+        // keep-alive组件激活，服务器端不可使用
+        activated() {
+        },
+        deactivated() {
+        },
+        // 组件被销毁
+        beforeDestroy() {
+        },
+        destroyed() {
+        },
+        methods: {
+            // this 指向该 组件实例
+        }
+    })
+
+    // 通过extend扩展一个组件后返回的新组件继承了其props等属性
+    //     这种方式的组件可以通过new 来使用，传递prop的时候需要是propsDate:{}
+    //          传递data:{},会覆盖合并
+    //          传递 mounted 会像callbacks队列一样，调用
+    // extends 可以当作组件配置对象的一个属性
+</script>
+</body>
+</html>

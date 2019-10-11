@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>虚拟DOM和jsx</title>
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+
+    <script type="text/babel">
+
+        const One = ()=>{
+            return(
+                <div>第一个组件</div>
+            )
+        }
+
+        class Two extends React.Component{
+            render(){
+                const data = ['one','two','three','four']
+                const obj = {a:1,b:2,c:3}
+
+                return(
+                    <div>
+                        第二个组件 {this.props.type}
+                        <hr />
+                        <h4>循环变量:</h4>
+                        {
+                            data.map((item,index)=>{
+                                // if(index){
+                                // }
+                                return(<p key={item}>{item}</p>)
+                            })
+                        }
+
+                        <h4>循环对象:</h4>
+                    </div>
+                )
+            }
+        }
+
+        // 根组件
+        class Clock extends React.Component {
+            render(){
+                return (
+                    <div>
+                        <h1>Hello, world!</h1>
+                        -----
+                        <One />
+                        -----
+                        <Two type={'传来的xxx'}/>
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(
+            <Clock />,
+            document.getElementById("app"))
+    </script>
+</body>
+
+</html>
